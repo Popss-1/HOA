@@ -2,8 +2,11 @@ package com.bigbrain.v1.controllers;
 
 import com.bigbrain.v1.DAOandRepositories.AnnouncementRepository;
 import com.bigbrain.v1.models.Announcements;
+import com.bigbrain.v1.models.Users;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,10 +24,19 @@ public class AnnouncementController {
         this.announcementRepository = announcementRepository;
     }
 
-    @GetMapping("/admin/createannouncement")
-    public String createAnnouncement(){
+   @GetMapping("/admin/allannouncements")
+   public String showAllAnnouncements(Model model){
+        List<Announcements> allAnnouncements = announcementRepository.findAll();
+        model.addAttribute("allAnnouncements", allAnnouncements);
+        return "adminaallannouncements";
+   }
 
-        return "createannouncement";
+    @GetMapping("/admin/createannouncement")
+    public String createAnnouncement(HttpSession httpSession, Model model){
+        Users user = (Users) httpSession.getAttribute("user");
+        Announcements newAnnouncement = new Announcements(user.getUserIdPK());
+        model.addAttribute("newAnnouncement", newAnnouncement);
+        return "adminannouncementform";
     }
 
     @PostMapping("/admin/createannouncement")
@@ -33,25 +45,20 @@ public class AnnouncementController {
         return "redirect:/admin/allannouncements";
     }
 
-    @GetMapping("/welcome")
-    public String showAllAnnouncements(){
-        List<Announcements> allAnnouncements = announcementRepository.findAll();
-        return "allannouncements";
-    }
-
-    @GetMapping("/admin/updateannouncment{announcementIDPK}")
-    public String updateAnnouncement(@PathVariable int announcementIDPK){
+    @GetMapping("/admin/allallnouncements{announcementIDPK}")
+    public String updateAnnouncement(@PathVariable int announcementIDPK, Model model){
         Announcements announcementUpdatable = announcementRepository.findByPk(announcementIDPK);
-        return "announcementUpdateForm";
+        model.addAttribute("announcementUpdatable", announcementUpdatable);
+        return "adminannouncementupdateform";
     }
 
-    @PostMapping("/admin/updateannouncment")
-    public String submitUpdateAnnouncement(@ModelAttribute("updateAnnouncement") Announcements updateAnnouncement){
-        announcementRepository.update(updateAnnouncement, updateAnnouncement.getAnnouncementIDPK());
+    @PostMapping("/admin/allallnouncements{announcementIDPK}")
+    public String submitUpdateAnnouncement(@ModelAttribute("announcementUpdatable") Announcements announcementUpdatable){
+        announcementRepository.update(announcementUpdatable, announcementUpdatable.getAnnouncementIDPK());
         return "redirect:/admin/allannouncements";
     }
 
-    @GetMapping("/admin/deleteannouncenment{announcementIDPK}")
+    @GetMapping("/admin/allannouncements{announcementIDPK}")
     public String deleteAnnouncement(@PathVariable int announcementIDPK){
         announcementRepository.deleteByID(announcementIDPK);
         return "redirect:/admin/allannouncements";

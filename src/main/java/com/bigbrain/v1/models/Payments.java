@@ -30,6 +30,10 @@ public class Payments {
 
 	}
 
+	public Payments(int billIDFK, int userIdFk){
+		this.billIDFK = billIDFK;
+		this.userIdFk = userIdFk;
+	}
 	public Payments(int billIDFK, float creditCardNumber, int CVV, int expirationMonth, int expirationYear, long amountPaid, int userIdFk) {
 		this.billIDFK = billIDFK;
 		this.creditCardNumber = creditCardNumber;

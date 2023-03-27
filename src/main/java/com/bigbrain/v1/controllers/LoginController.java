@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
+
 //After logged in
 @Controller
 public class LoginController {
@@ -46,6 +48,7 @@ public class LoginController {
     public String postLogin(@AuthenticationPrincipal OAuth2User principal, ModelMap model, HttpSession httpSession){
         String email = principal.getAttribute("email");
         Users user = usersRepository.findByEmail(email);
+
         //System.out.println("Found user: " + user);
         // User not found, proceed with registration
         if ( user == null){
@@ -64,7 +67,8 @@ public class LoginController {
 
         registerUserRoleWithSpringSecurity(SecurityContextHolder.getContext().getAuthentication(), user);
         //TODO feed announcement to welcome
-        Announcements announcement = announcementRepository.findLatest();
+        List<Announcements> allAnnouncements = announcementRepository.findAll();
+        model.addAttribute("allAnnouncements", allAnnouncements);
         return "welcome";
     }
 
@@ -85,6 +89,8 @@ public class LoginController {
         model.addAttribute("user", user);
         addressRepository.save(newAddress);
         registerUserRoleWithSpringSecurity(SecurityContextHolder.getContext().getAuthentication(), user);
+        List<Announcements> allAnnouncements = announcementRepository.findAll();
+        model.addAttribute("allAnnouncements", allAnnouncements);
         return "welcome";
     }
 

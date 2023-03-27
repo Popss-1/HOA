@@ -1,40 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head th:insert="fragments/head">
-    <title>Title</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" th:href="@{/layui/css/layui.css}">
+    <script src="/layui/layui.js" th:src="@{/layui/layui.js}"></script>
+    <script src="/js/jquery.js" th:src="@{/js/jquery.js}"></script>
 </head>
 <body>
-<div th:insert="fragments/navbar"></div>
-<h2>List of incidents</h2>
-<div th:if="${ not#lists.isEmpty(userIncidents)}">
-    <table>
-        <tr>
-            <th>Label</th>
-            <th>Incident category</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Options</th>
-        </tr>
-        <tr th:each="incident : ${userIncidents}">
 
-            <td th:text="${incident.incidentIDPK}"></td>
-            <td th:text="${incident.category}"></td>
-            <td th:text="${incident.title}"></td>
-            <td th:text="${incident.description}"></td>
-            <td th:text="${incident.status}"></td>
-            <td th:text="${incident.incidentDate}"></td>
-            <td>
-                <a th:href="@{/user/deleteincidents/{incidentIDPK}(incidentIDPK=${incident.incidentIDPK})}">
-                    <button type="submit" >Delete</button>
-                </a>
-                <a th:href="@{/user/updateincident/{incidentIDPK}(incidentIDPK=${incident.incidentIDPK})}">
-                    <button type="submit" >Edit</button>
-                </a>
-        </tr>
-    </table>
+<div class="layui-card">
+    <div class="layui-card-header">
+        <h3>List of incidents</h3>
+    </div>
+    <div class="layui-card-body">
+        <div th:if="${ not#lists.isEmpty(userIncidents)}">
+            <table class="layui-table">
+                <tr>
+                    <th>Label</th>
+                    <th>Incident category</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Options</th>
+                </tr>
+                <tr th:each="incident : ${userIncidents}">
+
+                    <td th:text="${incident.incidentIDPK}"></td>
+                    <td th:text="${incident.category}"></td>
+                    <td th:text="${incident.title}"></td>
+                    <td th:text="${incident.description}"></td>
+                    <td th:text="${incident.status}"></td>
+                    <td th:text="${incident.incidentDate}"></td>
+                    <td>
+                        <a class="layui-btn layui-btn-sm layui-btn-danger" th:href="@{/user/deleteincidents/{incidentIDPK}(incidentIDPK=${incident.incidentIDPK})}">
+                            Delete
+                        </a>
+                        <a class="layui-btn layui-btn-sm" th:href="@{/user/updateincident/{incidentIDPK}(incidentIDPK=${incident.incidentIDPK})}">
+                            Edit
+                        </a>
+                </tr>
+            </table>
+        </div>
+        <a class="layui-btn layui-btn-sm" th:href="@{/incidentmap}">Go back</a>
+    </div>
 </div>
+
 </body>
 </html>
