@@ -8,7 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 //CommandLineRunner is used to run some code once after the app starts
-@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
+//@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})
+@SpringBootApplication
 @EnableScheduling
 public class BigBrainApplication {
 	

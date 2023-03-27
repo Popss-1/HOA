@@ -1,6 +1,8 @@
 package com.bigbrain.v1.config;
 
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -8,8 +10,11 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.HeaderWriter;
+import org.springframework.security.web.header.HeaderWriterFilter;
 
 import javax.sql.DataSource;
+import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +33,16 @@ public class AppConfig {
 						.anyRequest().authenticated()
 				)
 				.oauth2Login()
-				.defaultSuccessUrl("/welcome", true);
+				.defaultSuccessUrl("/backend", true);
+
+		HeaderWriter headerWriter = new HeaderWriter() {
+			@Override
+			public void writeHeaders(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+				httpServletResponse.setHeader("X-Frame-Options","SAMEORIGIN");
+			}
+		};
+		HeaderWriterFilter filter = new HeaderWriterFilter(Collections.singletonList(headerWriter));
+		http.addFilter(filter);
 
 		return http.build();
 	}
