@@ -23,12 +23,13 @@ public class BillController {
     }
 
     @GetMapping("/user/userbills")
-    public void viewUserBills(HttpSession httpSession, Model model){
+    public String viewUserBills(HttpSession httpSession, Model model){
         Users user = (Users) httpSession.getAttribute("user");
         List<Bills> userBills = billsRepository.findByUserID(user.getUserIdPK());
         //model.addAttribute("user", user);
         model.addAttribute("userBills", userBills);
         System.out.println("all user bills" + userBills);
+        return "userallbills";
     }
 
     @GetMapping("/admin/allbills")

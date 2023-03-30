@@ -71,12 +71,4 @@ public class Bills {
 		return amountDue;
 	}
 
-	public void setAmountDue(long amountDue) {
-		this.amountDue = amountDue;
-	}
-
-	public void setPayments(List<Payments> payments) {
-		this.payments = payments;
-
-	}
 }

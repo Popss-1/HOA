@@ -69,7 +69,8 @@ public class LoginController {
 
         registerUserRoleWithSpringSecurity(SecurityContextHolder.getContext().getAuthentication(), user);
         //TODO feed announcement to welcome
-        Announcements announcement = announcementRepository.findLatest();
+        List<Announcements> allAnnouncements = announcementRepository.findAll();
+        model.addAttribute("allAnnouncements", allAnnouncements);
         return "welcome";
     }
 
@@ -90,6 +91,8 @@ public class LoginController {
         model.addAttribute("user", user);
         addressRepository.save(newAddress);
         registerUserRoleWithSpringSecurity(SecurityContextHolder.getContext().getAuthentication(), user);
+        List<Announcements> allAnnouncements = announcementRepository.findAll();
+        model.addAttribute("allAnnouncements", allAnnouncements);
         return "welcome";
     }
 
