@@ -57,13 +57,17 @@ public class IncidentController {
         return "incidentform";
     }
 
+    // HttpServletRequest request used to recevie the image file
     @PostMapping("/incidentform")
-    public String submitIncidentForm(HttpServletRequest request, @ModelAttribute("newIncident") Incidents newIncident, @ModelAttribute("incidentAddress") Addresses incidentAddress, Model model) throws IOException {
+    public String submitIncidentForm(HttpServletRequest request, @ModelAttribute("newIncident") Incidents newIncident,
+                                     @ModelAttribute("incidentAddress") Addresses incidentAddress, Model model) throws IOException {
       // Store image into incidents obj
-        //        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-//        MultipartFile file = multipartRequest.getFile("image");
-//        byte[] imageData = file.getBytes();
-
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartFile file = multipartRequest.getFile("image");
+        if (file != null && file.getContentType().startsWith("image/")) {
+            byte[] imageData = file.getBytes();
+            newIncident.setImage(imageData);
+        }
         String address = incidentAddress.getAddressLine1() + " " + incidentAddress.getCity() + ", " + incidentAddress.getCity() + " " + incidentAddress.getZipCode();
 
         // geocode address

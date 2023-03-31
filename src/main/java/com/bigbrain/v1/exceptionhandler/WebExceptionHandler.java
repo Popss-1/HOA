@@ -58,6 +58,7 @@ public class WebExceptionHandler extends ResponseEntityExceptionHandler {
     For any other constraint violation, it returns a message with the constraint violation error message and HTTP status code of 409 Conflict.
     If the cause of the exception is not a ConstraintViolationException, it returns a message that indicates a data integrity violation with HTTP status code of 409 Conflict
      */
+    // return errordetails object
     @ExceptionHandler(value = { DataIntegrityViolationException.class })
     public ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         if (ex.getCause() instanceof ConstraintViolationException) {

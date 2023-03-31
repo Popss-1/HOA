@@ -12,7 +12,7 @@ public class Incidents {
     }
 
 	// Image stored as
-	//private byte[] image;
+	private byte[] image;
 	private int incidentIDPK;
 
 	private String category;
@@ -126,6 +126,14 @@ public class Incidents {
 
 	public void setIncidentDate(Date incidentDate) {
 		this.incidentDate = incidentDate;
+	}
+
+	public byte[] getImage() {
+		return image;
+	}
+
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 	@Override

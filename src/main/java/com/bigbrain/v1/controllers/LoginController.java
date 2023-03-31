@@ -49,7 +49,7 @@ public class LoginController {
         String email = principal.getAttribute("email");
         Users user = usersRepository.findByEmail(email);
 
-        //System.out.println("Found user: " + user);
+        System.out.println("Found user: " + user);
         // User not found, proceed with registration
         if ( user == null){
             String firstName = principal.getAttribute("given_name");
@@ -58,9 +58,7 @@ public class LoginController {
 
             model.addAttribute("newUser", newUser);
             //System.out.println("NEW USER: " + newUser.toString());
-            model.addAttribute("newAddress", new Addresses()); // adduserIDFK
-            List<Announcements> allAnnouncements = announcementRepository.findAll();
-            model.addAttribute("allAnnouncements", allAnnouncements);
+            model.addAttribute("newAddress", new Addresses());
             return "registration";
         }
 
@@ -68,7 +66,7 @@ public class LoginController {
         httpSession.setAttribute("user", user);
 
         registerUserRoleWithSpringSecurity(SecurityContextHolder.getContext().getAuthentication(), user);
-        //TODO feed announcement to welcome
+        //feed announcement to welcome
         List<Announcements> allAnnouncements = announcementRepository.findAll();
         model.addAttribute("allAnnouncements", allAnnouncements);
         return "welcome";

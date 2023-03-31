@@ -18,6 +18,9 @@ public class Announcements {
 	private String title;
 	private String description;
 
+	public Announcements(){
+
+	}
 	public Announcements(int userIDFK){
 	this.userIDFK = userIDFK;
 	}
